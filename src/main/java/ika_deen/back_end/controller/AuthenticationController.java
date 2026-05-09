@@ -40,4 +40,22 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
+
+    /**
+     * Endpoint de vérification d'email via token.
+     */
+    @GetMapping("/verify")
+    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
+        service.verifyEmail(token);
+        return ResponseEntity.ok("Votre compte a été vérifié avec succès. Vous pouvez maintenant vous connecter.");
+    }
+
+    /**
+     * Endpoint pour renvoyer l'email de vérification.
+     */
+    @PostMapping("/resend-verification")
+    public ResponseEntity<String> resendVerification(@RequestParam String email) {
+        service.resendVerificationEmail(email);
+        return ResponseEntity.ok("Un nouvel email de vérification a été envoyé à " + email);
+    }
 }

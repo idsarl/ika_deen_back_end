@@ -5,7 +5,10 @@ import ika_deen.back_end.dto.AuthenticationResponse;
 import ika_deen.back_end.dto.RegisterRequest;
 import ika_deen.back_end.entite.*;
 import ika_deen.back_end.enumeration.Role;
+import ika_deen.back_end.exception.AccountNotVerifiedException;
 import ika_deen.back_end.exception.EmailAlreadyExistsException;
+import ika_deen.back_end.exception.ResourceNotFoundException;
+import ika_deen.back_end.exception.TokenExpiredException;
 import ika_deen.back_end.repository.*;
 import ika_deen.back_end.security.JwtService;
 import jakarta.annotation.PostConstruct;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Service gérant la logique métier de l'authentification.
@@ -41,6 +45,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     @Value("${ika-deen.admin.email}")
     private String adminEmail;
@@ -103,13 +108,15 @@ public class AuthenticationService {
     /**
      * Enregistre un nouvel utilisateur dans le système.
      * @param request DTO contenant les informations d'inscription.
-     * @return AuthenticationResponse contenant le token JWT généré.
+     * @return AuthenticationResponse contenant un message de succès.
      */
     public AuthenticationResponse register(RegisterRequest request) {
         if (repository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistsException("L'adresse email " + request.getEmail() + " est déjà utilisée");
         }
 
+        String token = UUID.randomUUID().toString();
+        
         var utilisateur = Utilisateur.builder()
                 .email(request.getEmail())
                 .motDePasseHash(passwordEncoder.encode(request.getMotDePasse()))
@@ -117,23 +124,56 @@ public class AuthenticationService {
                 .role(Role.UTILISATEUR)
                 .estActif(true)
                 .estVerifie(false)
+                .tokenVerification(token)
+                .dateExpirationToken(LocalDateTime.now().plusHours(24))
                 .build();
 
         repository.save(utilisateur);
 
-        var userDetails = User.builder()
-                .username(utilisateur.getEmail())
-                .password(utilisateur.getMotDePasseHash())
-                .roles(utilisateur.getRole().name())
-                .build();
+        // Envoi de l'email de vérification
+        emailService.sendVerificationEmail(utilisateur.getEmail(), token);
 
-        var jwtToken = jwtService.generateToken(userDetails);
         return AuthenticationResponse.builder()
-                .token(jwtToken)
                 .email(utilisateur.getEmail())
                 .role(utilisateur.getRole().name())
-                .message("Compte créé avec succès")
+                .message("Compte créé avec succès. Veuillez vérifier votre email pour activer votre compte.")
                 .build();
+    }
+
+    /**
+     * Vérifie le compte d'un utilisateur via son token.
+     */
+    public void verifyEmail(String token) {
+        Utilisateur utilisateur = repository.findByTokenVerification(token)
+                .orElseThrow(() -> new ResourceNotFoundException("Token de vérification invalide"));
+
+        if (utilisateur.getDateExpirationToken().isBefore(LocalDateTime.now())) {
+            throw new TokenExpiredException("Le lien de vérification a expiré");
+        }
+
+        utilisateur.setEstVerifie(true);
+        utilisateur.setTokenVerification(null);
+        utilisateur.setDateExpirationToken(null);
+        repository.save(utilisateur);
+    }
+
+    /**
+     * Renvoie un email de vérification.
+     */
+    public void resendVerificationEmail(String email) {
+        Utilisateur utilisateur = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
+
+        if (utilisateur.isEstVerifie()) {
+            throw new RuntimeException("Ce compte est déjà vérifié");
+        }
+
+        String token = UUID.randomUUID().toString();
+        utilisateur.setTokenVerification(token);
+        utilisateur.setDateExpirationToken(LocalDateTime.now().plusHours(24));
+        repository.save(utilisateur);
+
+        emailService.sendVerificationEmail(utilisateur.getEmail(), token);
     }
 
     /**
@@ -142,15 +182,19 @@ public class AuthenticationService {
      * @return AuthenticationResponse contenant le token JWT.
      */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        var utilisateur = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
+
+        if (!utilisateur.isEstVerifie()) {
+            throw new AccountNotVerifiedException("Veuillez vérifier votre compte par email avant de vous connecter");
+        }
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getMotDePasse()
                 )
         );
-
-        var utilisateur = repository.findByEmail(request.getEmail())
-                .orElseThrow(); // Déjà géré par BadCredentialsException si l'auth échoue
 
         var userDetails = User.builder()
                 .username(utilisateur.getEmail())
