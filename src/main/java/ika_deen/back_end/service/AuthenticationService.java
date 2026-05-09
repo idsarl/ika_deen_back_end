@@ -114,7 +114,7 @@ public class AuthenticationService {
         if (repository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistsException("L'adresse email " + request.getEmail() + " est déjà utilisée");
         }
-
+        // GÉNÉRATION DU TOKEN
         String token = UUID.randomUUID().toString();
         
         var utilisateur = Utilisateur.builder()
@@ -124,13 +124,13 @@ public class AuthenticationService {
                 .role(Role.UTILISATEUR)
                 .estActif(true)
                 .estVerifie(false)
-                .tokenVerification(token)
-                .dateExpirationToken(LocalDateTime.now().plusHours(24))
+                .tokenVerification(token)   // ← STOCKE LE TOKEN
+                .dateExpirationToken(LocalDateTime.now().plusHours(24))  // ← DATE D'EXPIRATION
                 .build();
 
         repository.save(utilisateur);
 
-        // Envoi de l'email de vérification
+        // ENVOI AUTOMATIQUE DE L'EMAIL
         emailService.sendVerificationEmail(utilisateur.getEmail(), token);
 
         return AuthenticationResponse.builder()
@@ -144,13 +144,15 @@ public class AuthenticationService {
      * Vérifie le compte d'un utilisateur via son token.
      */
     public void verifyEmail(String token) {
+        // Cherche l'utilisateur par token
         Utilisateur utilisateur = repository.findByTokenVerification(token)
                 .orElseThrow(() -> new ResourceNotFoundException("Token de vérification invalide"));
 
+        // Vérifie si le token a expiré
         if (utilisateur.getDateExpirationToken().isBefore(LocalDateTime.now())) {
             throw new TokenExpiredException("Le lien de vérification a expiré");
         }
-
+         // Active le compte
         utilisateur.setEstVerifie(true);
         utilisateur.setTokenVerification(null);
         utilisateur.setDateExpirationToken(null);
@@ -162,11 +164,12 @@ public class AuthenticationService {
      */
     public void resendVerificationEmail(String email) {
         Utilisateur utilisateur = repository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé"));
+                .orElseThrow(() -> new ResourceNotFoundException("Si un compte existe avec cet email, un nouveau lien a été envoyé"));
 
         if (utilisateur.isEstVerifie()) {
             throw new RuntimeException("Ce compte est déjà vérifié");
         }
+
 
         String token = UUID.randomUUID().toString();
         utilisateur.setTokenVerification(token);
