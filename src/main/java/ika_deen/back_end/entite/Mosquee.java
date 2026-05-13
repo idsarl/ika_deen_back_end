@@ -32,8 +32,8 @@ public class Mosquee {
 
     private Adresse adresse;
 
-    @GeoSpatialIndexed
-    private GeoJsonPoint position;
+    @GeoSpatialIndexed(type = org.springframework.data.mongodb.core.index.GeoSpatialIndexType.GEO_2DSPHERE)
+    private GeoJsonPoint location;
 
     private Contact contact;
 

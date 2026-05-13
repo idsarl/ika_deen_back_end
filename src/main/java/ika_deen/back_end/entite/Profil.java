@@ -42,8 +42,8 @@ public class Profil {
 
     private String fuseauHoraire;
 
-    @GeoSpatialIndexed
-    private GeoJsonPoint position;
+    @GeoSpatialIndexed(type = org.springframework.data.mongodb.core.index.GeoSpatialIndexType.GEO_2DSPHERE)
+    private GeoJsonPoint location;
 
     private String ville;
 

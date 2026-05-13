@@ -31,6 +31,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/auth/**",
+                                "/api/v1/noms-allah/**",
+                                "/api/v1/mosquees",
+                                "/api/v1/mosquees/{id}",
+                                "/api/v1/mosquees/slug/**",
+                                "/api/v1/mosquees/nearby",
+                                "/api/v1/priere/**",
                                 "/v3/api-docs/**",
                                 "/api-docs/**",
                                 "/swagger-ui/**",

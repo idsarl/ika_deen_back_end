@@ -86,7 +86,11 @@
 			<version>${springdoc.version}</version>
 		</dependency>
 
-		<!-- Utilities -->
+		<dependency>
+			<groupId>com.batoulapps.adhan</groupId>
+			<artifactId>adhan</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>
 			<artifactId>dotenv-java</artifactId>
