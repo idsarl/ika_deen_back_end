@@ -68,6 +68,34 @@ public class ProfilService {
     }
 
     /**
+     * ÉTAPE 3 : Mettre à jour le compteur Tasbih.
+     */
+    public Profil updateTasbih(int count, String dhikrType) {
+        Profil profil = getCurrentUserProfile();
+        
+        if (profil.getStatistiques() == null) {
+            profil.setStatistiques(new Profil.Statistiques());
+        }
+        
+        // Mise à jour du total
+        profil.getStatistiques().setTotalTasbih(profil.getStatistiques().getTotalTasbih() + count);
+        
+        // Mise à jour du détail par type de dhikr
+        if (dhikrType != null && !dhikrType.isEmpty()) {
+            java.util.Map<String, Integer> details = profil.getStatistiques().getTasbihDetails();
+            if (details == null) {
+                details = new java.util.HashMap<>();
+                profil.getStatistiques().setTasbihDetails(details);
+            }
+            details.put(dhikrType, details.getOrDefault(dhikrType, 0) + count);
+        }
+        
+        profil.getStatistiques().setDateDerniereActivite(java.time.LocalDate.now());
+        
+        return profilRepository.save(profil);
+    }
+
+    /**
      * Utilitaire : Créer un profil par défaut si l'utilisateur n'en a pas encore.
      */
     private Profil createDefaultProfil(String utilisateurId) {

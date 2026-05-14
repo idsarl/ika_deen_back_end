@@ -21,8 +21,18 @@ public class AdminUtilisateurController {
     private final UtilisateurRepository repository;
 
     @GetMapping
-    @Operation(summary = "Lister tous les utilisateurs (Admin)")
-    public ResponseEntity<List<Utilisateur>> getAll() {
+    @Operation(summary = "Lister et filtrer les utilisateurs (Admin)")
+    public ResponseEntity<List<Utilisateur>> getAll(
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) ika_deen.back_end.enumeration.Role role) {
+        
+        if (email != null && !email.isEmpty()) {
+            return ResponseEntity.ok(repository.findByEmailContainingIgnoreCase(email));
+        }
+        if (role != null) {
+            return ResponseEntity.ok(repository.findByRole(role));
+        }
+        
         return ResponseEntity.ok(repository.findAll());
     }
 

@@ -111,6 +111,7 @@ public class Profil {
         private int totalPrieresEnregistrees;
         private long tempsTotalLectureCoran; // en minutes
         private int totalTasbih;
+        private java.util.Map<String, Integer> tasbihDetails; // ex: {"SubhanAllah": 33, "Alhamdulillah": 33}
         private int serieJoursActifs;
         private LocalDate dateDerniereActivite;
     }

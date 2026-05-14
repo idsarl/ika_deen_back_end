@@ -37,4 +37,15 @@ public class ProfilController {
     public ResponseEntity<Profil> updateMyProfile(@RequestBody ProfilRequest request) {
         return ResponseEntity.ok(profilService.updateProfile(request));
     }
+
+    /**
+     * ÉTAPE 3 : Mettre à jour le compteur Tasbih.
+     */
+    @PostMapping("/me/tasbih")
+    @Operation(summary = "Enregistrer une session de Tasbih")
+    public ResponseEntity<Profil> updateTasbih(
+            @RequestParam int count,
+            @RequestParam(required = false) String dhikrType) {
+        return ResponseEntity.ok(profilService.updateTasbih(count, dhikrType));
+    }
 }

@@ -22,18 +22,59 @@ import org.springframework.web.bind.annotation.RestController;
 public class PriereController {
 
     private final PriereService priereService;
+    private final ika_deen.back_end.service.ProfilService profilService;
 
     /**
      * ÉTAPE 1 : Calculer les horaires pour une position donnée.
-     * Exemple : /api/v1/priere/horaires?lat=9.5&lon=-13.6&methode=MWL
+     * Si lat/lon ne sont pas fournis, utilise la position du profil utilisateur.
      */
     @GetMapping("/horaires")
-    @Operation(summary = "Calculer les horaires de prière pour une position GPS")
+    @Operation(summary = "Calculer les horaires de prière (Automatique si connecté)")
     public ResponseEntity<HorairesPriereResponse> getHoraires(
-            @RequestParam double lat,
-            @RequestParam double lon,
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lon,
             @RequestParam(defaultValue = "MWL") MethodeCalcul methode) {
         
+        if (lat == null || lon == null) {
+            try {
+                var profil = profilService.getCurrentUserProfile();
+                if (profil.getLocation() != null) {
+                    lat = profil.getLocation().getY();
+                    lon = profil.getLocation().getX();
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            } catch (Exception e) {
+                return ResponseEntity.status(401).build();
+            }
+        }
+        
         return ResponseEntity.ok(priereService.calculerHoraires(lat, lon, methode));
+    }
+
+    /**
+     * ÉTAPE 2 : Obtenir la direction de la Qibla.
+     */
+    @GetMapping("/qibla")
+    @Operation(summary = "Obtenir la direction de la Qibla (Automatique si connecté)")
+    public ResponseEntity<Double> getQibla(
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lon) {
+
+        if (lat == null || lon == null) {
+            try {
+                var profil = profilService.getCurrentUserProfile();
+                if (profil.getLocation() != null) {
+                    lat = profil.getLocation().getY();
+                    lon = profil.getLocation().getX();
+                } else {
+                    return ResponseEntity.badRequest().build();
+                }
+            } catch (Exception e) {
+                return ResponseEntity.status(401).build();
+            }
+        }
+
+        return ResponseEntity.ok(priereService.calculerQibla(lat, lon));
     }
 }

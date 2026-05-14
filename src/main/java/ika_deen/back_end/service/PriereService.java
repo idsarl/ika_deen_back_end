@@ -4,6 +4,7 @@ import com.batoulapps.adhan.CalculationMethod;
 import com.batoulapps.adhan.CalculationParameters;
 import com.batoulapps.adhan.Coordinates;
 import com.batoulapps.adhan.PrayerTimes;
+import com.batoulapps.adhan.Qibla;
 import com.batoulapps.adhan.data.DateComponents;
 import ika_deen.back_end.dto.HorairesPriereResponse;
 import ika_deen.back_end.enumeration.MethodeCalcul;
@@ -53,6 +54,15 @@ public class PriereService {
                 .date(today.toString())
                 .methodeCalcul(methode.name())
                 .build();
+    }
+
+    /**
+     * ÉTAPE 2 : Calculer la direction de la Qibla.
+     * @return Angle en degrés par rapport au Nord (sens horaire).
+     */
+    public double calculerQibla(double latitude, double longitude) {
+        Coordinates coordinates = new Coordinates(latitude, longitude);
+        return new Qibla(coordinates).direction;
     }
 
     /**

@@ -11,4 +11,7 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
     Optional<Utilisateur> findByEmail(String email);
     Optional<Utilisateur> findByTokenVerification(String token);
     boolean existsByEmail(String email);
+    
+    java.util.List<Utilisateur> findByEmailContainingIgnoreCase(String email);
+    java.util.List<Utilisateur> findByRole(ika_deen.back_end.enumeration.Role role);
 }
