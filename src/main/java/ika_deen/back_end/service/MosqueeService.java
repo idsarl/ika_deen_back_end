@@ -121,4 +121,23 @@ public class MosqueeService {
         String slug = Pattern.compile("[^\\w-]").matcher(normalized).replaceAll("");
         return slug.toLowerCase(Locale.ENGLISH);
     }
+
+    /**
+     * Ajoute une image à la liste des images d'une mosquée.
+     */
+    public Mosquee addImage(String id, String url, boolean principale) {
+        Mosquee mosquee = getMosqueeById(id);
+        
+        if (mosquee.getImages() == null) {
+            mosquee.setImages(new java.util.ArrayList<>());
+        }
+        
+        // Si cette image est marquée comme principale, on décoche les autres
+        if (principale) {
+            mosquee.getImages().forEach(img -> img.setEstPrincipale(false));
+        }
+        
+        mosquee.getImages().add(new Mosquee.ImageMosquee(url, null, principale));
+        return mosqueeRepository.save(mosquee);
+    }
 }

@@ -27,6 +27,7 @@ public class MosqueeController {
 
     private final MosqueeService mosqueeService;
     private final ika_deen.back_end.service.ProfilService profilService;
+    private final ika_deen.back_end.service.FileStorageService fileStorageService;
 
     /**
      * ÉTAPE 1 : Lister toutes les mosquées (Public).
@@ -112,5 +113,20 @@ public class MosqueeController {
         }
         
         return ResponseEntity.ok(mosqueeService.findNearby(lat, lon, dist));
+    }
+
+    /**
+     * ÉTAPE 7 : Uploader une image pour une mosquée (ADMIN).
+     */
+    @PostMapping(value = "/{id}/images", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Uploader une photo pour une mosquée (ADMIN)")
+    public ResponseEntity<Mosquee> uploadImage(
+            @PathVariable String id,
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
+            @RequestParam(defaultValue = "false") boolean principale) {
+        
+        String url = fileStorageService.storeFile(file, "images");
+        return ResponseEntity.ok(mosqueeService.addImage(id, url, principale));
     }
 }

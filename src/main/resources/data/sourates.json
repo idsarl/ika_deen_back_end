@@ -1,0 +1,800 @@
+[
+  {
+    "numero": 1,
+    "nomArabe": "الفاتحة",
+    "nomFrancais": "Al-Fatiha (L'Ouverture)",
+    "urlAudio": "https://server8.mp3quran.net/afs/001.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 2,
+    "nomArabe": "البقرة",
+    "nomFrancais": "Al-Baqarah (La Vache)",
+    "urlAudio": "https://server8.mp3quran.net/afs/002.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 3,
+    "nomArabe": "آل عمران",
+    "nomFrancais": "Al-Imran (La Famille d'Imran)",
+    "urlAudio": "https://server8.mp3quran.net/afs/003.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 4,
+    "nomArabe": "النساء",
+    "nomFrancais": "An-Nisa (Les Femmes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/004.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 5,
+    "nomArabe": "المائدة",
+    "nomFrancais": "Al-Ma'idah (La Table Servie)",
+    "urlAudio": "https://server8.mp3quran.net/afs/005.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 6,
+    "nomArabe": "الأنعام",
+    "nomFrancais": "Al-An'am (Les Bestiaux)",
+    "urlAudio": "https://server8.mp3quran.net/afs/006.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 7,
+    "nomArabe": "الأعراف",
+    "nomFrancais": "Al-A'raf",
+    "urlAudio": "https://server8.mp3quran.net/afs/007.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 8,
+    "nomArabe": "الأنفال",
+    "nomFrancais": "Al-Anfal (Le Butin)",
+    "urlAudio": "https://server8.mp3quran.net/afs/008.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 9,
+    "nomArabe": "التوبة",
+    "nomFrancais": "At-Tawbah (Le Désaveu)",
+    "urlAudio": "https://server8.mp3quran.net/afs/009.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 10,
+    "nomArabe": "يونس",
+    "nomFrancais": "Yunus (Jonas)",
+    "urlAudio": "https://server8.mp3quran.net/afs/010.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 11,
+    "nomArabe": "هود",
+    "nomFrancais": "Hud",
+    "urlAudio": "https://server8.mp3quran.net/afs/011.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 12,
+    "nomArabe": "يوسف",
+    "nomFrancais": "Yusuf (Joseph)",
+    "urlAudio": "https://server8.mp3quran.net/afs/012.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 13,
+    "nomArabe": "الرعد",
+    "nomFrancais": "Ar-Ra'd (Le Tonnerre)",
+    "urlAudio": "https://server8.mp3quran.net/afs/013.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 14,
+    "nomArabe": "إبراهيم",
+    "nomFrancais": "Ibrahim (Abraham)",
+    "urlAudio": "https://server8.mp3quran.net/afs/014.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 15,
+    "nomArabe": "الحجر",
+    "nomFrancais": "Al-Hijr",
+    "urlAudio": "https://server8.mp3quran.net/afs/015.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 16,
+    "nomArabe": "النحل",
+    "nomFrancais": "An-Nahl (Les Abeilles)",
+    "urlAudio": "https://server8.mp3quran.net/afs/016.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 17,
+    "nomArabe": "الإسراء",
+    "nomFrancais": "Al-Isra (Le Voyage Nocturne)",
+    "urlAudio": "https://server8.mp3quran.net/afs/017.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 18,
+    "nomArabe": "الكهف",
+    "nomFrancais": "Al-Kahf (La Caverne)",
+    "urlAudio": "https://server8.mp3quran.net/afs/018.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 19,
+    "nomArabe": "مريم",
+    "nomFrancais": "Maryam (Marie)",
+    "urlAudio": "https://server8.mp3quran.net/afs/019.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 20,
+    "nomArabe": "طه",
+    "nomFrancais": "Ta-Ha",
+    "urlAudio": "https://server8.mp3quran.net/afs/020.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 21,
+    "nomArabe": "الأنبياء",
+    "nomFrancais": "Al-Anbiya (Les Prophètes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/021.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 22,
+    "nomArabe": "الحج",
+    "nomFrancais": "Al-Hajj (Le Pèlerinage)",
+    "urlAudio": "https://server8.mp3quran.net/afs/022.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 23,
+    "nomArabe": "المؤمنون",
+    "nomFrancais": "Al-Mu'minun (Les Croyants)",
+    "urlAudio": "https://server8.mp3quran.net/afs/023.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 24,
+    "nomArabe": "النور",
+    "nomFrancais": "An-Nur (La Lumière)",
+    "urlAudio": "https://server8.mp3quran.net/afs/024.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 25,
+    "nomArabe": "الفرقان",
+    "nomFrancais": "Al-Furqan (Le Discernement)",
+    "urlAudio": "https://server8.mp3quran.net/afs/025.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 26,
+    "nomArabe": "الشعراء",
+    "nomFrancais": "Ash-Shu'ara (Les Poètes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/026.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 27,
+    "nomArabe": "النمل",
+    "nomFrancais": "An-Naml (Les Fourmis)",
+    "urlAudio": "https://server8.mp3quran.net/afs/027.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 28,
+    "nomArabe": "القصص",
+    "nomFrancais": "Al-Qasas (Le Récit)",
+    "urlAudio": "https://server8.mp3quran.net/afs/028.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 29,
+    "nomArabe": "العنكبوت",
+    "nomFrancais": "Al-Ankabut (L'Araignée)",
+    "urlAudio": "https://server8.mp3quran.net/afs/029.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 30,
+    "nomArabe": "الروم",
+    "nomFrancais": "Ar-Rum (Les Romains)",
+    "urlAudio": "https://server8.mp3quran.net/afs/030.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 31,
+    "nomArabe": "لقمان",
+    "nomFrancais": "Luqman",
+    "urlAudio": "https://server8.mp3quran.net/afs/031.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 32,
+    "nomArabe": "السجدة",
+    "nomFrancais": "As-Sajdah (La Prosternation)",
+    "urlAudio": "https://server8.mp3quran.net/afs/032.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 33,
+    "nomArabe": "الأحزاب",
+    "nomFrancais": "Al-Ahzab (Les Coalisés)",
+    "urlAudio": "https://server8.mp3quran.net/afs/033.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 34,
+    "nomArabe": "سبأ",
+    "nomFrancais": "Saba",
+    "urlAudio": "https://server8.mp3quran.net/afs/034.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 35,
+    "nomArabe": "فاطر",
+    "nomFrancais": "Fatir (Le Créateur)",
+    "urlAudio": "https://server8.mp3quran.net/afs/035.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 36,
+    "nomArabe": "يس",
+    "nomFrancais": "Ya-Sin",
+    "urlAudio": "https://server8.mp3quran.net/afs/036.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 37,
+    "nomArabe": "الصافات",
+    "nomFrancais": "As-Saffat (Les Rangés)",
+    "urlAudio": "https://server8.mp3quran.net/afs/037.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 38,
+    "nomArabe": "ص",
+    "nomFrancais": "Sad",
+    "urlAudio": "https://server8.mp3quran.net/afs/038.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 39,
+    "nomArabe": "الزمر",
+    "nomFrancais": "Az-Zumar (Les Groupes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/039.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 40,
+    "nomArabe": "غافر",
+    "nomFrancais": "Ghafir (Le Pardonneur)",
+    "urlAudio": "https://server8.mp3quran.net/afs/040.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 41,
+    "nomArabe": "فصلت",
+    "nomFrancais": "Fussilat (Les Versets Détaillés)",
+    "urlAudio": "https://server8.mp3quran.net/afs/041.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 42,
+    "nomArabe": "الشورى",
+    "nomFrancais": "Ash-Shura (La Consultation)",
+    "urlAudio": "https://server8.mp3quran.net/afs/042.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 43,
+    "nomArabe": "الزخرف",
+    "nomFrancais": "Az-Zukhruf (L'Ornement)",
+    "urlAudio": "https://server8.mp3quran.net/afs/043.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 44,
+    "nomArabe": "الدخان",
+    "nomFrancais": "Ad-Dukhan (La Fumée)",
+    "urlAudio": "https://server8.mp3quran.net/afs/044.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 45,
+    "nomArabe": "الجاثية",
+    "nomFrancais": "Al-Jathiyah (L'Agenouillée)",
+    "urlAudio": "https://server8.mp3quran.net/afs/045.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 46,
+    "nomArabe": "الأحقاف",
+    "nomFrancais": "Al-Ahqaf",
+    "urlAudio": "https://server8.mp3quran.net/afs/046.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 47,
+    "nomArabe": "محمد",
+    "nomFrancais": "Muhammad",
+    "urlAudio": "https://server8.mp3quran.net/afs/047.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 48,
+    "nomArabe": "الفتح",
+    "nomFrancais": "Al-Fath (La Victoire Éclatante)",
+    "urlAudio": "https://server8.mp3quran.net/afs/048.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 49,
+    "nomArabe": "الحجرات",
+    "nomFrancais": "Al-Hujurat (Les Appartements)",
+    "urlAudio": "https://server8.mp3quran.net/afs/049.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 50,
+    "nomArabe": "ق",
+    "nomFrancais": "Qaf",
+    "urlAudio": "https://server8.mp3quran.net/afs/050.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 51,
+    "nomArabe": "الذاريات",
+    "nomFrancais": "Adh-Dhariyat (Qui Éparpillent)",
+    "urlAudio": "https://server8.mp3quran.net/afs/051.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 52,
+    "nomArabe": "الطور",
+    "nomFrancais": "At-Tur",
+    "urlAudio": "https://server8.mp3quran.net/afs/052.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 53,
+    "nomArabe": "النجم",
+    "nomFrancais": "An-Najm (L'Étoile)",
+    "urlAudio": "https://server8.mp3quran.net/afs/053.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 54,
+    "nomArabe": "القمر",
+    "nomFrancais": "Al-Qamar (La Lune)",
+    "urlAudio": "https://server8.mp3quran.net/afs/054.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 55,
+    "nomArabe": "الرحمن",
+    "nomFrancais": "Ar-Rahman (Le Tout Miséricordieux)",
+    "urlAudio": "https://server8.mp3quran.net/afs/055.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 56,
+    "nomArabe": "الواقعة",
+    "nomFrancais": "Al-Waqi'ah (L'Événement)",
+    "urlAudio": "https://server8.mp3quran.net/afs/056.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 57,
+    "nomArabe": "الحديد",
+    "nomFrancais": "Al-Hadid (Le Fer)",
+    "urlAudio": "https://server8.mp3quran.net/afs/057.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 58,
+    "nomArabe": "المجادلة",
+    "nomFrancais": "Al-Mujadilah (La Discussion)",
+    "urlAudio": "https://server8.mp3quran.net/afs/058.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 59,
+    "nomArabe": "الحشر",
+    "nomFrancais": "Al-Hashr (L'Exode)",
+    "urlAudio": "https://server8.mp3quran.net/afs/059.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 60,
+    "nomArabe": "الممتحنة",
+    "nomFrancais": "Al-Mumtahanah (L'Éprouvée)",
+    "urlAudio": "https://server8.mp3quran.net/afs/060.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 61,
+    "nomArabe": "الصف",
+    "nomFrancais": "As-Saff (Le Rang)",
+    "urlAudio": "https://server8.mp3quran.net/afs/061.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 62,
+    "nomArabe": "الجمعة",
+    "nomFrancais": "Al-Jumu'ah (Le Vendredi)",
+    "urlAudio": "https://server8.mp3quran.net/afs/062.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 63,
+    "nomArabe": "المنافقون",
+    "nomFrancais": "Al-Munafiqun (Les Hypocrites)",
+    "urlAudio": "https://server8.mp3quran.net/afs/063.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 64,
+    "nomArabe": "التغابن",
+    "nomFrancais": "At-Taghabun (La Grande Perte)",
+    "urlAudio": "https://server8.mp3quran.net/afs/064.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 65,
+    "nomArabe": "الطلاق",
+    "nomFrancais": "At-Talaq (Le Divorce)",
+    "urlAudio": "https://server8.mp3quran.net/afs/065.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 66,
+    "nomArabe": "التحريم",
+    "nomFrancais": "At-Tahrim (L'Interdiction)",
+    "urlAudio": "https://server8.mp3quran.net/afs/066.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 67,
+    "nomArabe": "الملك",
+    "nomFrancais": "Al-Mulk (La Royauté)",
+    "urlAudio": "https://server8.mp3quran.net/afs/067.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 68,
+    "nomArabe": "القلم",
+    "nomFrancais": "Al-Qalam (La Plume)",
+    "urlAudio": "https://server8.mp3quran.net/afs/068.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 69,
+    "nomArabe": "الحاقة",
+    "nomFrancais": "Al-Haqqah (Celle qui Montre la Vérité)",
+    "urlAudio": "https://server8.mp3quran.net/afs/069.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 70,
+    "nomArabe": "المعارج",
+    "nomFrancais": "Al-Ma'arij (Les Voies d'Ascension)",
+    "urlAudio": "https://server8.mp3quran.net/afs/070.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 71,
+    "nomArabe": "نوح",
+    "nomFrancais": "Nuh (Noé)",
+    "urlAudio": "https://server8.mp3quran.net/afs/071.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 72,
+    "nomArabe": "الجن",
+    "nomFrancais": "Al-Jinn",
+    "urlAudio": "https://server8.mp3quran.net/afs/072.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 73,
+    "nomArabe": "المزمل",
+    "nomFrancais": "Al-Muzzammil (L'Enveloppé)",
+    "urlAudio": "https://server8.mp3quran.net/afs/073.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 74,
+    "nomArabe": "المدثر",
+    "nomFrancais": "Al-Muddaththir (Le Revêtu d'un Manteau)",
+    "urlAudio": "https://server8.mp3quran.net/afs/074.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 75,
+    "nomArabe": "القيامة",
+    "nomFrancais": "Al-Qiyamah (La Résurrection)",
+    "urlAudio": "https://server8.mp3quran.net/afs/075.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 76,
+    "nomArabe": "الإنسان",
+    "nomFrancais": "Al-Insan (L'Homme)",
+    "urlAudio": "https://server8.mp3quran.net/afs/076.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 77,
+    "nomArabe": "المرسلات",
+    "nomFrancais": "Al-Mursalat (Les Envoyés)",
+    "urlAudio": "https://server8.mp3quran.net/afs/077.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 78,
+    "nomArabe": "النبأ",
+    "nomFrancais": "An-Naba (La Nouvelle)",
+    "urlAudio": "https://server8.mp3quran.net/afs/078.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 79,
+    "nomArabe": "النازعات",
+    "nomFrancais": "An-Nazi'at (Les Anges qui Arrachent les Âmes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/079.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 80,
+    "nomArabe": "عبس",
+    "nomFrancais": "Abasa (Il s'est Renfrogné)",
+    "urlAudio": "https://server8.mp3quran.net/afs/080.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 81,
+    "nomArabe": "التكوير",
+    "nomFrancais": "At-Takwir (L'Obscurcissement)",
+    "urlAudio": "https://server8.mp3quran.net/afs/081.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 82,
+    "nomArabe": "الانفطار",
+    "nomFrancais": "Al-Infitar (La Rupture)",
+    "urlAudio": "https://server8.mp3quran.net/afs/082.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 83,
+    "nomArabe": "المطففين",
+    "nomFrancais": "Al-Mutaffifin (Les Fraudeurs)",
+    "urlAudio": "https://server8.mp3quran.net/afs/083.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 84,
+    "nomArabe": "الانشقاق",
+    "nomFrancais": "Al-Inshiqaq (La Déchirure)",
+    "urlAudio": "https://server8.mp3quran.net/afs/084.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 85,
+    "nomArabe": "البروج",
+    "nomFrancais": "Al-Buruj (Les Constellations)",
+    "urlAudio": "https://server8.mp3quran.net/afs/085.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 86,
+    "nomArabe": "الطارق",
+    "nomFrancais": "At-Tariq (L'Astre Nocturne)",
+    "urlAudio": "https://server8.mp3quran.net/afs/086.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 87,
+    "nomArabe": "الأعلى",
+    "nomFrancais": "Al-A'la (Le Très-Haut)",
+    "urlAudio": "https://server8.mp3quran.net/afs/087.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 88,
+    "nomArabe": "الغاشية",
+    "nomFrancais": "Al-Ghashiyah (L'Enveloppante)",
+    "urlAudio": "https://server8.mp3quran.net/afs/088.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 89,
+    "nomArabe": "الفجر",
+    "nomFrancais": "Al-Fajr (L'Aube)",
+    "urlAudio": "https://server8.mp3quran.net/afs/089.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 90,
+    "nomArabe": "البلد",
+    "nomFrancais": "Al-Balad (La Cité)",
+    "urlAudio": "https://server8.mp3quran.net/afs/090.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 91,
+    "nomArabe": "الشمس",
+    "nomFrancais": "Ash-Shams (Le Soleil)",
+    "urlAudio": "https://server8.mp3quran.net/afs/091.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 92,
+    "nomArabe": "الليل",
+    "nomFrancais": "Al-Layl (La Nuit)",
+    "urlAudio": "https://server8.mp3quran.net/afs/092.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 93,
+    "nomArabe": "الضحى",
+    "nomFrancais": "Ad-Duha (Le Jour Montant)",
+    "urlAudio": "https://server8.mp3quran.net/afs/093.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 94,
+    "nomArabe": "الشرح",
+    "nomFrancais": "Ash-Sharh (L'Ouverture)",
+    "urlAudio": "https://server8.mp3quran.net/afs/094.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 95,
+    "nomArabe": "التين",
+    "nomFrancais": "At-Tin (Le Figuier)",
+    "urlAudio": "https://server8.mp3quran.net/afs/095.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 96,
+    "nomArabe": "العلق",
+    "nomFrancais": "Al-Alaq (L'Adhérence)",
+    "urlAudio": "https://server8.mp3quran.net/afs/096.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 97,
+    "nomArabe": "القدر",
+    "nomFrancais": "Al-Qadr (La Destinée)",
+    "urlAudio": "https://server8.mp3quran.net/afs/097.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 98,
+    "nomArabe": "البينة",
+    "nomFrancais": "Al-Bayyinah (La Preuve)",
+    "urlAudio": "https://server8.mp3quran.net/afs/098.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 99,
+    "nomArabe": "الزلزلة",
+    "nomFrancais": "Az-Zalzalah (Le Tremblement de Terre)",
+    "urlAudio": "https://server8.mp3quran.net/afs/099.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 100,
+    "nomArabe": "العاديات",
+    "nomFrancais": "Al-Adiyat (Les Coursiers)",
+    "urlAudio": "https://server8.mp3quran.net/afs/100.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 101,
+    "nomArabe": "القارعة",
+    "nomFrancais": "Al-Qari'ah (Le Fracas)",
+    "urlAudio": "https://server8.mp3quran.net/afs/101.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 102,
+    "nomArabe": "التكاثر",
+    "nomFrancais": "At-Takathur (La Course aux Richesses)",
+    "urlAudio": "https://server8.mp3quran.net/afs/102.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 103,
+    "nomArabe": "العصر",
+    "nomFrancais": "Al-Asr (Le Temps)",
+    "urlAudio": "https://server8.mp3quran.net/afs/103.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 104,
+    "nomArabe": "الهمزة",
+    "nomFrancais": "Al-Humazah (Les Calomniateurs)",
+    "urlAudio": "https://server8.mp3quran.net/afs/104.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 105,
+    "nomArabe": "الفيل",
+    "nomFrancais": "Al-Fil (L'Éléphant)",
+    "urlAudio": "https://server8.mp3quran.net/afs/105.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 106,
+    "nomArabe": "قريش",
+    "nomFrancais": "Quraish",
+    "urlAudio": "https://server8.mp3quran.net/afs/106.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 107,
+    "nomArabe": "الماعون",
+    "nomFrancais": "Al-Ma'un (L'Ustensile)",
+    "urlAudio": "https://server8.mp3quran.net/afs/107.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 108,
+    "nomArabe": "الكوثر",
+    "nomFrancais": "Al-Kawthar (L'Abondance)",
+    "urlAudio": "https://server8.mp3quran.net/afs/108.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 109,
+    "nomArabe": "الكافرون",
+    "nomFrancais": "Al-Kafirun (Les Infidèles)",
+    "urlAudio": "https://server8.mp3quran.net/afs/109.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 110,
+    "nomArabe": "النصر",
+    "nomFrancais": "An-Nasr (Les Secours)",
+    "urlAudio": "https://server8.mp3quran.net/afs/110.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 111,
+    "nomArabe": "المسد",
+    "nomFrancais": "Al-Masad (Les Fibres)",
+    "urlAudio": "https://server8.mp3quran.net/afs/111.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 112,
+    "nomArabe": "الإخلاص",
+    "nomFrancais": "Al-Ikhlas (Le Monothéisme Pur)",
+    "urlAudio": "https://server8.mp3quran.net/afs/112.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 113,
+    "nomArabe": "الفلق",
+    "nomFrancais": "Al-Falaq (L'Aube Naissante)",
+    "urlAudio": "https://server8.mp3quran.net/afs/113.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  },
+  {
+    "numero": 114,
+    "nomArabe": "الناس",
+    "nomFrancais": "An-Nas (Les Hommes)",
+    "urlAudio": "https://server8.mp3quran.net/afs/114.mp3",
+    "recitateurId": "Mishary Al-Afasy"
+  }
+]

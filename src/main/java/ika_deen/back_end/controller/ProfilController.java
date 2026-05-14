@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProfilController {
 
     private final ProfilService profilService;
+    private final ika_deen.back_end.service.FileStorageService fileStorageService;
 
     /**
      * ÉTAPE 1 : Récupérer mon profil (Connecté uniquement).
@@ -47,5 +48,28 @@ public class ProfilController {
             @RequestParam int count,
             @RequestParam(required = false) String dhikrType) {
         return ResponseEntity.ok(profilService.updateTasbih(count, dhikrType));
+    }
+
+    /**
+     * ÉTAPE 4 : Uploader un avatar.
+     */
+    @PostMapping(value = "/me/avatar", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Uploader une photo de profil")
+    public ResponseEntity<Profil> uploadAvatar(
+            @RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        
+        String url = fileStorageService.storeFile(file, "images");
+        return ResponseEntity.ok(profilService.updateAvatar(url));
+    }
+
+    /**
+     * ÉTAPE 5 : Enregistrer la progression de lecture du Coran.
+     */
+    @PutMapping("/me/progression")
+    @Operation(summary = "Enregistrer la dernière sourate et le dernier verset lus")
+    public ResponseEntity<Profil> updateProgression(
+            @RequestParam int sourateNum,
+            @RequestParam int versetNum) {
+        return ResponseEntity.ok(profilService.updateProgression(sourateNum, versetNum));
     }
 }

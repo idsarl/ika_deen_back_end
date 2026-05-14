@@ -5,21 +5,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "recitateurs")
+@Document(collection = "versets")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Recitateur {
+public class Verset {
 
     @Id
     private String id;
 
-    private String nom;
+    @Indexed
+    private int sourateNumero;
 
-    private String biographie;
+    private int versetNumero;
 
-    private String photoUrl;
+    private String texteArabe;
+
+    private String texteFrancais;
+
+    private String urlAudio; // Optionnel : pour écouter le verset seul
 }

@@ -96,6 +96,31 @@ public class ProfilService {
     }
 
     /**
+     * ÉTAPE 4 : Mettre à jour l'avatar.
+     */
+    public Profil updateAvatar(String url) {
+        Profil profil = getCurrentUserProfile();
+        profil.setAvatarUrl(url);
+        return profilRepository.save(profil);
+    }
+
+    /**
+     * ÉTAPE 5 : Mettre à jour la progression dans le Coran.
+     */
+    public Profil updateProgression(int sourateNum, int versetNum) {
+        Profil profil = getCurrentUserProfile();
+        
+        if (profil.getProgressionCoran() == null) {
+            profil.setProgressionCoran(new Profil.ProgressionCoran());
+        }
+        
+        profil.getProgressionCoran().setDerniereSourate(sourateNum);
+        profil.getProgressionCoran().setDernierVerset(versetNum);
+        
+        return profilRepository.save(profil);
+    }
+
+    /**
      * Utilitaire : Créer un profil par défaut si l'utilisateur n'en a pas encore.
      */
     private Profil createDefaultProfil(String utilisateurId) {

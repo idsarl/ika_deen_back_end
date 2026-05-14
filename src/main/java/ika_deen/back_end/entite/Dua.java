@@ -26,4 +26,8 @@ public class Dua {
 
     @Indexed
     private String categorie;
+
+    private String audioUrl;
+
+    private String imageUrl;
 }

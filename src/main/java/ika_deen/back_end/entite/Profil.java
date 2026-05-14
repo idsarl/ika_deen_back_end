@@ -49,6 +49,8 @@ public class Profil {
 
     private String pays;
 
+    private String fcmToken;
+
     private ReglagesPriere reglagesPriere;
 
     private PreferencesNotification preferencesNotification;

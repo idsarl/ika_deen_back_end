@@ -1,82 +1,113 @@
-# Guide Détaillé des Entités et Relations - Ika Deen
+# 📖 Guide Scénarisé du Backend - Ika Deen
 
-Ce document fournit une explication approfondie de chaque entité du système, sa logique métier et la manière dont elles interagissent entre elles dans MongoDB.
-
----
-
-## 1. Axe Utilisateur & Sécurité
-
-### **Utilisateur (`Utilisateur.java`)**
-*   **Description** : C'est le point d'entrée du système. Il contient uniquement les informations nécessaires à l'authentification et à la communication technique.
-*   **Champs Clés** :
-    *   `email` : Identifiant unique de connexion.
-    *   `motDePasseHash` : Empreinte sécurisée (BCrypt).
-    *   `role` : Détermine l'accès au Dashboard Web (ADMIN) ou à l'App Mobile (UTILISATEUR).
-    *   `tokenFcm` : Adresse technique pour envoyer des notifications push via Firebase.
-*   **Relation** : **1:1** avec `Profil`. On sépare l'auth du profil pour optimiser les performances de connexion.
-
-### **Profil (`Profil.java`)**
-*   **Description** : Le cerveau de l'expérience utilisateur. Il stocke tout ce qui personnalise l'application.
-*   **Objets Imbriqués** :
-    *   `ReglagesPriere` : Méthode de calcul (ex: MWL) et ajustements manuels des minutes.
-    *   `PreferencesNotification` : Choix précis de ce que l'utilisateur veut recevoir.
-    *   `ProgressionCoran` : Sauvegarde l'endroit exact où l'utilisateur s'est arrêté de lire ou d'écouter.
-    *   `Statistiques` : Gamification et suivi de l'activité (Tasbih, temps de lecture).
-*   **Relation** : Référence l'ID de l'utilisateur (`utilisateurId`).
+Ce document explique comment le backend fonctionne à travers des scénarios réels, de l'inscription d'un utilisateur à la gestion par l'administrateur.
 
 ---
 
-## 2. Axe Géographique & Communautaire
+## 📱 Scénario 1 : Le Parcours de l'Utilisateur Mobile
 
-### **Mosquée (`Mosquee.java`)**
-*   **Description** : L'entité centrale de la carte GPS.
-*   **Logique GPS** : Utilise le format **GeoJSON Point**. Cela permet de demander à MongoDB : *"Donne-moi toutes les mosquées à moins de 2km de ma position actuelle"*.
-*   **Horaires de Prière** : Stockés directement dans la mosquée pour un affichage instantané sans requête supplémentaire.
-*   **Relations** :
-    *   **1:N** avec `Commentaire` (via lien externe).
-    *   **1:N** avec `Evenement` (via lien externe).
-
-### **Commentaire (`Commentaire.java`)**
-*   **Description** : Système d'avis pour évaluer la qualité des services d'une mosquée.
-*   **Relation** : Lie un `Utilisateur` à une `Mosquée`. On garde une trace de `utilisateurId` pour éviter les doublons d'avis.
-
-### **Evénement (`Evenement.java`)**
-*   **Description** : Annonces dynamiques (conférences, prières spéciales, cours).
-*   **Relation** : Référence une `Mosquée`. Les événements sont affichés dans le profil de la mosquée sur l'app Flutter.
+### Étape 1 : Inscription et Connexion
+L'utilisateur télécharge l'application et crée son compte.
+*   **Endpoint** : `POST /api/v1/auth/register`
+*   **JSON Exemple** :
+```json
+{
+  "prenom": "Oumar",
+  "nom": "Dolo",
+  "email": "oumar@example.com",
+  "motDePasse": "Secret123!"
+}
+```
+*💡 Le système crée automatiquement un profil vide lié à cet utilisateur.*
 
 ---
 
-## 3. Axe Contenu Spirituel & Médias
-
-### **Sourate (`Sourate.java`)**
-*   **Description** : Référence un fichier audio du Coran.
-*   **Gestion Audio** : On ne stocke pas le fichier `.mp3` en base de données. On stocke l'URL (vers Cloudinary ou un serveur de fichiers).
-*   **Relation** : Référence un `Recitateur`.
-
-### **Recitateur (`Recitateur.java`)**
-*   **Description** : La personne qui récite le Coran. Permet aux utilisateurs de filtrer le Coran par leur voix préférée.
-
-### **Radio (`Radio.java`)**
-*   **Description** : Flux de streaming en direct (URL Stream).
-
----
-
-## 4. Axe Marketing & Admin
-
-### **Publicité (`Publicite.java`)**
-*   **Description** : Bannières affichées sur l'application mobile.
-*   **Logique** : Gérées par l'ADMIN via le Dashboard Web. Elles ont une date d'expiration pour disparaître automatiquement.
+### Étape 2 : Configuration du Profil et GPS
+L'utilisateur configure sa ville et autorise la géolocalisation pour les prières.
+*   **Endpoint** : `PUT /api/v1/profil/me`
+*   **JSON Exemple** :
+```json
+{
+  "nomAffichage": "Oumar Deen",
+  "ville": "Bamako",
+  "pays": "Mali",
+  "latitude": 12.6392,
+  "longitude": -8.0029,
+  "languePreferee": "FR"
+}
+```
 
 ---
 
-## Synthèse des Relations
+### Étape 3 : Personnalisation de l'Avatar
+L'utilisateur prend une photo pour son profil.
+*   **Endpoint** : `POST /api/v1/profil/me/avatar` (Multipart/form-data)
+*   **Paramètre** : Fichier image (`file`).
+*💡 L'image est stockée dans `/uploads/images/` sur le serveur.*
 
-| Entité A | Entité B | Type de Relation | Logique MongoDB |
-| :--- | :--- | :--- | :--- |
-| Utilisateur | Profil | 1:1 | Référence (`utilisateurId`) |
-| Mosquée | Commentaire | 1:N | Référence (`mosqueeId`) |
-| Mosquée | Evénement | 1:N | Référence (`mosqueeId`) |
-| Sourate | Recitateur | N:1 | Référence (`recitateurId`) |
-| Utilisateur | Commentaire | 1:N | Référence (`utilisateurId`) |
+---
 
-**Note sur la performance** : Toutes les relations sont gérées par **Référence (Linking)** pour les objets volumineux (Commentaires, Evénements) afin de garder des documents légers et rapides à charger. Les objets de configuration (Adresse, Réglages) sont **Imbriqués (Embedding)** car ils sont toujours utilisés avec leur parent.
+### Étape 4 : Utilisation Quotidienne (Prière & Coran)
+L'utilisateur consulte ses horaires et fait son Tasbih.
+*   **Horaires** : `GET /api/v1/priere/horaires` (Auto-détecte la position via le profil).
+*   **Qibla** : `GET /api/v1/priere/qibla` -> Retourne l'angle (ex: 72.5°).
+*   **Tasbih** : L'utilisateur finit son Dhikr et enregistre son score.
+    *   **Endpoint** : `POST /api/v1/profil/me/tasbih?count=33&dhikrType=Alhamdulillah`
+
+---
+
+### Étape 5 : Lecture du Coran (Détails)
+L'utilisateur souhaite lire une sourate spécifique.
+*   **Endpoint** : `GET /api/v1/sourates/1/versets`
+*💡 Retourne la liste des Ayats avec le texte Arabe et Français.*
+
+
+## 💻 Scénario 2 : Le Parcours de l'Administrateur (Web Dashboard)
+
+### Étape 1 : Gestion des Mosquées
+L'admin ajoute une nouvelle mosquée dans le système.
+*   **Endpoint** : `POST /api/v1/mosquees`
+```json
+{
+  "nom": {"fr": "Grande Mosquée de Bamako", "ar": "المسجد الكبير"},
+  "latitude": 12.6458,
+  "longitude": -8.0001,
+  "adresse": {"rue": "Avenue de l'Indépendance", "ville": "Bamako"}
+}
+```
+
+---
+
+### Étape 2 : Ajout de Photos Réelles
+L'admin uploade les photos de la mosquée pour qu'elles apparaissent dans l'app mobile.
+*   **Endpoint** : `POST /api/v1/mosquees/{id}/images`
+*   **Paramètres** : `file` (image) + `principale` (true/false).
+
+---
+
+### Étape 3 : Publication d'un Événement
+L'admin annonce une conférence religieuse.
+*   **Endpoint** : `POST /api/v1/evenements` (Multipart)
+*   **Champs** : Titre, Description, Date, et le fichier de l'affiche publicitaire.
+
+---
+
+### Étape 4 : Monitoring des Utilisateurs
+L'admin recherche un utilisateur spécifique pour modération.
+*   **Endpoint** : `GET /api/v1/admin/utilisateurs/rechercher?email=oumar`
+*💡 Retourne une liste filtrée avec les statistiques de l'utilisateur.*
+
+---
+
+## 📁 Gestion des Fichiers (Résumé Technique)
+Tous les fichiers (Audio Coran, Images Mosquées, Avatars) sont centralisés :
+*   **Images** : `[RACINE]/uploads/images/`
+*   **Audio** : `[RACINE]/uploads/audio/`
+*   **Accès URL** : `http://serveur:8080/uploads/images/nom_unique.jpg`
+
+---
+
+## 🔔 Notifications Push
+Quand l'admin publie une publicité ou un événement :
+1.  Le backend appelle `FcmService`.
+2.  Firebase envoie une alerte à tous les mobiles ayant le `fcmToken` enregistré.
