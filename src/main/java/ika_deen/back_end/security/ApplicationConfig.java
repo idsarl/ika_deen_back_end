@@ -25,7 +25,8 @@ public class ApplicationConfig {
                 .map(u -> org.springframework.security.core.userdetails.User.builder()
                         .username(u.getEmail())
                         .password(u.getMotDePasseHash())
-                        .roles(u.getRole().name())
+                        .authorities("ROLE_" + u.getRole().name())
+                        .disabled(!u.isEstActif())
                         .build())
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
     }

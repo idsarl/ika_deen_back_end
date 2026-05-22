@@ -50,6 +50,17 @@ public class RadioController {
         return new ResponseEntity<>(radioService.saveRadio(radio), HttpStatus.CREATED);
     }
 
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Modifier une radio (ADMIN)")
+    public ResponseEntity<Radio> update(
+            @PathVariable String id,
+            @RequestParam(required = false) String nom,
+            @RequestParam(required = false) String urlStream,
+            @RequestPart(value = "logo", required = false) MultipartFile logo) {
+        return ResponseEntity.ok(radioService.updateRadio(id, nom, urlStream, logo));
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Supprimer une radio (ADMIN)")

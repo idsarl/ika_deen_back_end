@@ -26,10 +26,24 @@ public class PubliciteController {
     private final PubliciteService publiciteService;
     private final FileStorageService fileStorageService;
 
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Lister toutes les publicités (ADMIN)")
+    public ResponseEntity<List<Publicite>> getAll() {
+        return ResponseEntity.ok(publiciteService.getAllPublicites());
+    }
+
     @GetMapping("/active")
     @Operation(summary = "Récupérer les bannières publicitaires actives")
     public ResponseEntity<List<Publicite>> getActive() {
         return ResponseEntity.ok(publiciteService.getActivePublicites());
+    }
+
+    @PatchMapping("/{id}/toggle")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Activer / désactiver une publicité (ADMIN)")
+    public ResponseEntity<Publicite> toggle(@PathVariable String id) {
+        return ResponseEntity.ok(publiciteService.toggleStatus(id));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

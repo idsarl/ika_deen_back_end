@@ -10,9 +10,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,11 +51,26 @@ public class MosqueeController {
 
     /**
      * ÉTAPE 3 : Création d'une mosquée (Réservé ADMIN).
+     * multipart/form-data : part "data" (JSON MosqueeRequest) + part "imamPhoto" (fichier image, optionnel).
      */
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Créer une nouvelle mosquée (ADMIN)")
-    public ResponseEntity<Mosquee> create(@Valid @RequestBody MosqueeRequest request) {
+    @Operation(summary = "Créer une nouvelle mosquée avec photo imam (ADMIN)")
+    public ResponseEntity<Mosquee> create(
+            @RequestPart("data") @Valid MosqueeRequest request,
+            @RequestPart(value = "imamPhoto", required = false) MultipartFile imamPhoto) {
+
+        if (request.getImam() != null) {
+            request.getImam().setPhotoUrl(null);
+        }
+        if (imamPhoto != null && !imamPhoto.isEmpty()) {
+            Mosquee.Imam imam = request.getImam() != null
+                    ? request.getImam()
+                    : Mosquee.Imam.builder().build();
+            imam.setPhotoUrl(fileStorageService.storeFile(imamPhoto, "images"));
+            request.setImam(imam);
+        }
+
         return new ResponseEntity<>(mosqueeService.createMosquee(request), HttpStatus.CREATED);
     }
 
