@@ -37,7 +37,7 @@ public class DuaController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Créer une invocation avec image et audio (ADMIN)")
     public ResponseEntity<Dua> create(
             @RequestParam String titre,
@@ -66,7 +66,7 @@ public class DuaController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Supprimer une invocation (ADMIN)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         duaService.deleteDua(id);

@@ -58,4 +58,24 @@ public class AuthenticationController {
         service.resendVerificationEmail(email);
         return ResponseEntity.ok("Un nouvel email de vérification a été envoyé à " + email);
     }
+
+      /**
+     * Endpoint d'inscription via téléphone.
+     */
+    @PostMapping("/register-phone")
+    public ResponseEntity<AuthenticationResponse> registerWithPhone(
+            @Valid @RequestBody PhoneAuthRequest request
+    ) {
+        return ResponseEntity.ok(service.registerWithPhone(request));
+    }
+
+    /**
+     * Endpoint de connexion via téléphone.
+     */
+    @PostMapping("/login-phone")
+    public ResponseEntity<AuthenticationResponse> loginWithPhone(
+            @Valid @RequestBody PhoneAuthRequest request
+    ) {
+        return ResponseEntity.ok(service.loginWithPhone(request));
+    }
 }

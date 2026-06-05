@@ -31,7 +31,7 @@ public class RecitateurController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Ajouter un nouveau récitateur avec photo (ADMIN)")
     public ResponseEntity<Recitateur> create(
             @RequestParam String nom,
@@ -51,7 +51,7 @@ public class RecitateurController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Supprimer un récitateur (ADMIN)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         recitateurService.delete(id);

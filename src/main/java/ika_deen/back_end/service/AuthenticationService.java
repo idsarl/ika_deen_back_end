@@ -2,6 +2,7 @@ package ika_deen.back_end.service;
 
 import ika_deen.back_end.dto.AuthenticationRequest;
 import ika_deen.back_end.dto.AuthenticationResponse;
+import ika_deen.back_end.dto.PhoneAuthRequest;
 import ika_deen.back_end.dto.RegisterRequest;
 import ika_deen.back_end.entite.*;
 import ika_deen.back_end.enumeration.Role;
@@ -65,7 +66,7 @@ public class AuthenticationService {
             var admin = Utilisateur.builder()
                     .email(adminEmail)
                     .motDePasseHash(passwordEncoder.encode(adminPassword))
-                    .role(Role.ADMIN)
+                    .role(Role.SUPER_ADMIN)
                     .estActif(true)
                     .estVerifie(true)
                     .build();
@@ -164,19 +165,100 @@ public class AuthenticationService {
      */
     public void resendVerificationEmail(String email) {
         Utilisateur utilisateur = repository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Si un compte existe avec cet email, un nouveau lien a été envoyé"));
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec cet email"));
 
         if (utilisateur.isEstVerifie()) {
-            throw new RuntimeException("Ce compte est déjà vérifié");
+            throw new IllegalArgumentException("Cet utilisateur est déjà vérifié");
         }
 
-
-        String token = UUID.randomUUID().toString();
-        utilisateur.setTokenVerification(token);
+        String newToken = UUID.randomUUID().toString();
+        utilisateur.setTokenVerification(newToken);
         utilisateur.setDateExpirationToken(LocalDateTime.now().plusHours(24));
         repository.save(utilisateur);
 
-        emailService.sendVerificationEmail(utilisateur.getEmail(), token);
+        emailService.sendVerificationEmail(utilisateur.getEmail(), newToken);
+    }
+
+    /**
+     * Inscription via Téléphone et Nom
+     */
+    public AuthenticationResponse registerWithPhone(PhoneAuthRequest request) {
+        if (repository.existsByTelephone(request.getTelephone())) {
+            throw new IllegalArgumentException("Le numéro de téléphone " + request.getTelephone() + " est déjà utilisé");
+        }
+
+        // Création d'un email technique fictif pour satisfaire les contraintes Spring Security et MongoDB
+        String dummyEmail = request.getTelephone() + "@mobile.ikadeen.com";
+        // Génération d'un mot de passe complexe inutile car connexion sans mdp
+        String dummyPassword = UUID.randomUUID().toString();
+
+        var utilisateur = Utilisateur.builder()
+                .email(dummyEmail)
+                .motDePasseHash(passwordEncoder.encode(dummyPassword))
+                .telephone(request.getTelephone())
+                .role(Role.UTILISATEUR)
+                .estActif(true)
+                .estVerifie(true) // Pas de vérification d'email
+                .build();
+
+        repository.save(utilisateur);
+
+        // Création du profil associé
+        Profil profil = Profil.builder()
+                .utilisateurId(utilisateur.getId())
+                .nomAffichage(request.getNom())
+                .build();
+        profilRepository.save(profil);
+
+        // Spring Security User pour JWT
+        var userDetails = User.builder()
+                .username(utilisateur.getEmail())
+                .password(utilisateur.getMotDePasseHash())
+                .authorities(utilisateur.getRole().name())
+                .build();
+
+        String jwtToken = jwtService.generateToken(userDetails);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .email(utilisateur.getEmail())
+                .role(utilisateur.getRole().name())
+                .message("Compte mobile créé avec succès.")
+                .build();
+    }
+
+    /**
+     * Connexion via Téléphone et Nom
+     */
+    public AuthenticationResponse loginWithPhone(PhoneAuthRequest request) {
+        Utilisateur utilisateur = repository.findByTelephone(request.getTelephone())
+                .orElseThrow(() -> new ResourceNotFoundException("Aucun compte trouvé avec ce numéro de téléphone."));
+
+        Profil profil = profilRepository.findByUtilisateurId(utilisateur.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Profil introuvable pour cet utilisateur."));
+
+        // Vérification basique du nom d'affichage (Insensible à la casse)
+        if (profil.getNomAffichage() == null || !profil.getNomAffichage().equalsIgnoreCase(request.getNom().trim())) {
+            throw new org.springframework.security.access.AccessDeniedException("Le nom renseigné ne correspond pas à ce numéro de téléphone.");
+        }
+
+        utilisateur.setDateDerniereConnexion(LocalDateTime.now());
+        repository.save(utilisateur);
+
+        var userDetails = User.builder()
+                .username(utilisateur.getEmail())
+                .password(utilisateur.getMotDePasseHash())
+                .authorities(utilisateur.getRole().name())
+                .build();
+
+        String jwtToken = jwtService.generateToken(userDetails);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .email(utilisateur.getEmail())
+                .role(utilisateur.getRole().name())
+                .message("Connexion mobile réussie.")
+                .build();
     }
 
     /**

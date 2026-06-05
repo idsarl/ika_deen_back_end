@@ -30,6 +30,8 @@ public class MosqueeController {
     private final MosqueeService mosqueeService;
     private final ika_deen.back_end.service.ProfilService profilService;
     private final ika_deen.back_end.service.FileStorageService fileStorageService;
+    private final ika_deen.back_end.repository.UtilisateurRepository utilisateurRepository;
+    private final ika_deen.back_end.service.AdminUtilisateurService adminUtilisateurService;
 
     /**
      * ÉTAPE 1 : Lister toutes les mosquées (Public).
@@ -50,12 +52,30 @@ public class MosqueeController {
     }
 
     /**
-     * ÉTAPE 3 : Création d'une mosquée (Réservé ADMIN).
+     * Helper : Vérifie si l'utilisateur a le droit de modifier cette mosquée
+     */
+    private void checkMosqueeAccess(String mosqueeId) {
+        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SUPER_ADMIN"))) {
+            return; // Le Super Admin a tous les droits
+        }
+        
+        String email = auth.getName();
+        ika_deen.back_end.entite.Utilisateur currentUser = utilisateurRepository.findByEmail(email)
+                .orElseThrow(() -> new org.springframework.security.access.AccessDeniedException("Utilisateur introuvable"));
+                
+        if (currentUser.getMosqueeId() == null || !currentUser.getMosqueeId().equals(mosqueeId)) {
+            throw new org.springframework.security.access.AccessDeniedException("Vous n'êtes pas autorisé à modifier cette mosquée.");
+        }
+    }
+
+    /**
+     * ÉTAPE 3 : Création d'une mosquée (Réservé SUPER_ADMIN).
      * multipart/form-data : part "data" (JSON MosqueeRequest) + part "imamPhoto" (fichier image, optionnel).
      */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Créer une nouvelle mosquée avec photo imam (ADMIN)")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @Operation(summary = "Créer une nouvelle mosquée avec photo imam (SUPER_ADMIN)")
     public ResponseEntity<Mosquee> create(
             @RequestPart("data") @Valid MosqueeRequest request,
             @RequestPart(value = "imamPhoto", required = false) MultipartFile imamPhoto) {
@@ -71,27 +91,44 @@ public class MosqueeController {
             request.setImam(imam);
         }
 
-        return new ResponseEntity<>(mosqueeService.createMosquee(request), HttpStatus.CREATED);
+        Mosquee createdMosquee = mosqueeService.createMosquee(request);
+
+        // Si les informations de l'admin sont fournies, on le crée et on le lie à la mosquée
+        if (request.getAdmin() != null) {
+            ika_deen.back_end.dto.AdminUtilisateurCreateRequest adminRequest = ika_deen.back_end.dto.AdminUtilisateurCreateRequest.builder()
+                    .email(request.getAdmin().getEmail())
+                    .motDePasse(request.getAdmin().getMotDePasse())
+                    .telephone(request.getAdmin().getTelephone())
+                    .role(ika_deen.back_end.enumeration.Role.ADMIN)
+                    .estActif(true)
+                    .estVerifie(true)
+                    .mosqueeId(createdMosquee.getId())
+                    .build();
+            adminUtilisateurService.create(adminRequest);
+        }
+
+        return new ResponseEntity<>(createdMosquee, HttpStatus.CREATED);
     }
 
     /**
-     * ÉTAPE 4 : Mise à jour d'une mosquée (Réservé ADMIN).
+     * ÉTAPE 4 : Mise à jour d'une mosquée (ADMIN assigné ou SUPER_ADMIN).
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Modifier une mosquée existante (ADMIN)")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @Operation(summary = "Modifier une mosquée existante (ADMIN/SUPER_ADMIN)")
     public ResponseEntity<Mosquee> update(@PathVariable String id, @Valid @RequestBody MosqueeRequest request) {
+        checkMosqueeAccess(id);
         return ResponseEntity.ok(mosqueeService.updateMosquee(id, request));
     }
 
     /**
-     * ÉTAPE 5 : Suppression d'une mosquée (Réservé ADMIN).
+     * ÉTAPE 5 : Suppression d'une mosquée (Réservé SUPER_ADMIN).
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(
-            summary = "Supprimer une mosquée (ADMIN)",
-            description = "Supprime définitivement une mosquée de la base de données. Nécessite des privilèges ADMIN."
+            summary = "Supprimer une mosquée (SUPER_ADMIN)",
+            description = "Supprime définitivement une mosquée de la base de données. Nécessite des privilèges SUPER_ADMIN."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Mosquée supprimée avec succès"),
@@ -136,13 +173,14 @@ public class MosqueeController {
      * ÉTAPE 7 : Uploader une image pour une mosquée (ADMIN).
      */
     @PostMapping(value = "/{id}/images", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Uploader une photo pour une mosquée (ADMIN)")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @Operation(summary = "Uploader une photo pour une mosquée (ADMIN/SUPER_ADMIN)")
     public ResponseEntity<Mosquee> uploadImage(
             @PathVariable String id,
             @RequestParam("file") org.springframework.web.multipart.MultipartFile file,
             @RequestParam(defaultValue = "false") boolean principale) {
         
+        checkMosqueeAccess(id);
         String url = fileStorageService.storeFile(file, "images");
         return ResponseEntity.ok(mosqueeService.addImage(id, url, principale));
     }

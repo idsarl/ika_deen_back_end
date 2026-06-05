@@ -39,7 +39,7 @@ public class EvenementController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Créer un nouvel événement avec image (ADMIN)")
     public ResponseEntity<Evenement> create(
             @RequestParam String titre,
@@ -65,7 +65,7 @@ public class EvenementController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Supprimer un événement (ADMIN)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         evenementService.deleteEvenement(id);

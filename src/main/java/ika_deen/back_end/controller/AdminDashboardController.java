@@ -27,7 +27,7 @@ public class AdminDashboardController {
     private final EvenementRepository evenementRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Récupérer les statistiques globales pour l'administrateur")
     public ResponseEntity<DashboardResponse> getDashboardStats() {
         

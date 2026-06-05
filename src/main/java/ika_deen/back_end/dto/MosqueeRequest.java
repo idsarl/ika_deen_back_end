@@ -39,4 +39,21 @@ public class MosqueeRequest {
     private Mosquee.Equipements equipements;
     private Mosquee.HorairesPriere horairesPriere;
     private Mosquee.Imam imam;
+
+    // ÉTAPE 4 : Informations de l'administrateur (Optionnel, lors de la création)
+    private AdminInfo admin;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminInfo {
+        @NotBlank(message = "L'email de l'administrateur est obligatoire")
+        private String email;
+        
+        @NotBlank(message = "Le mot de passe de l'administrateur est obligatoire")
+        private String motDePasse;
+        
+        private String telephone;
+    }
 }

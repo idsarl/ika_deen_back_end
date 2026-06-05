@@ -45,7 +45,7 @@ public class SourateController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Créer ou mettre à jour une sourate avec son fichier audio (ADMIN)")
     public ResponseEntity<Sourate> createOrUpdate(
             @RequestParam int numero,

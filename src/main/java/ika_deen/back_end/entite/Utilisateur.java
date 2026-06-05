@@ -32,6 +32,8 @@ public class Utilisateur {
 
     private Role role;
 
+    private String mosqueeId;
+
     @Builder.Default
     private boolean estActif = true;
 

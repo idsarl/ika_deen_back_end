@@ -27,7 +27,7 @@ public class PubliciteController {
     private final FileStorageService fileStorageService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Lister toutes les publicités (ADMIN)")
     public ResponseEntity<List<Publicite>> getAll() {
         return ResponseEntity.ok(publiciteService.getAllPublicites());
@@ -40,14 +40,14 @@ public class PubliciteController {
     }
 
     @PatchMapping("/{id}/toggle")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Activer / désactiver une publicité (ADMIN)")
     public ResponseEntity<Publicite> toggle(@PathVariable String id) {
         return ResponseEntity.ok(publiciteService.toggleStatus(id));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Créer une nouvelle bannière publicitaire (ADMIN)")
     public ResponseEntity<Publicite> create(
             @RequestParam(required = false) String lienDestination,
@@ -70,7 +70,7 @@ public class PubliciteController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Supprimer une publicité (ADMIN)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         publiciteService.deletePublicite(id);

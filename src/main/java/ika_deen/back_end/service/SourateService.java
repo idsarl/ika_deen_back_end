@@ -22,19 +22,7 @@ public class SourateService {
     private final SourateRepository repository;
     private final ObjectMapper objectMapper;
 
-    @PostConstruct
-    public void seedSourates() {
-        if (repository.count() == 0) {
-            try {
-                InputStream inputStream = new ClassPathResource("data/sourates.json").getInputStream();
-                List<Sourate> sourates = objectMapper.readValue(inputStream, new TypeReference<List<Sourate>>() {});
-                repository.saveAll(sourates);
-                log.info("Coran initialisé avec {} sourates.", sourates.size());
-            } catch (Exception e) {
-                log.error("Erreur lors de l'initialisation des sourates : {}", e.getMessage());
-            }
-        }
-    }
+    // seedSourates() supprimé : la synchronisation est désormais gérée par QuranSyncService
 
     public List<Sourate> getAllSourates() {
         return repository.findAll();

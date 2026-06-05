@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface UtilisateurRepository extends MongoRepository<Utilisateur, String> {
     Optional<Utilisateur> findByEmail(String email);
     Optional<Utilisateur> findByTokenVerification(String token);
+    Optional<Utilisateur> findByTelephone(String telephone);
     boolean existsByEmail(String email);
+    boolean existsByTelephone(String telephone);
     
     java.util.List<Utilisateur> findByEmailContainingIgnoreCase(String email);
     java.util.List<Utilisateur> findByRole(ika_deen.back_end.enumeration.Role role);

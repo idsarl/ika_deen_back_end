@@ -21,19 +21,7 @@ public class VersetService {
     private final VersetRepository repository;
     private final ObjectMapper objectMapper;
 
-    @PostConstruct
-    public void seedVersets() {
-        if (repository.count() == 0) {
-            try {
-                InputStream inputStream = new ClassPathResource("data/versets_fatiha.json").getInputStream();
-                List<Verset> versets = objectMapper.readValue(inputStream, new TypeReference<List<Verset>>() {});
-                repository.saveAll(versets);
-                log.info("Versets de la Fatiha initialisés.");
-            } catch (Exception e) {
-                log.error("Erreur lors de l'initialisation des versets : {}", e.getMessage());
-            }
-        }
-    }
+    // seedVersets() supprimé : la synchronisation est désormais gérée par QuranSyncService
 
     public List<Verset> getVersetsBySourate(int sourateNumero) {
         return repository.findBySourateNumeroOrderByVersetNumeroAsc(sourateNumero);

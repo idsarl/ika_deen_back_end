@@ -31,7 +31,7 @@ public class RadioController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Créer une nouvelle radio avec logo (ADMIN)")
     public ResponseEntity<Radio> create(
             @RequestParam String nom,
@@ -51,7 +51,7 @@ public class RadioController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Modifier une radio (ADMIN)")
     public ResponseEntity<Radio> update(
             @PathVariable String id,
@@ -62,7 +62,7 @@ public class RadioController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @Operation(summary = "Supprimer une radio (ADMIN)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         radioService.deleteRadio(id);

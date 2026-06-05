@@ -28,6 +28,7 @@ public class AdminUtilisateurService {
                 .role(request.getRole())
                 .estActif(request.isEstActif())
                 .estVerifie(request.isEstVerifie())
+                .mosqueeId(request.getMosqueeId())
                 .build());
     }
 
@@ -54,6 +55,9 @@ public class AdminUtilisateurService {
         }
         if (request.getEstVerifie() != null) {
             utilisateur.setEstVerifie(request.getEstVerifie());
+        }
+        if (request.getMosqueeId() != null) {
+            utilisateur.setMosqueeId(request.getMosqueeId());
         }
         return repository.save(utilisateur);
     }

@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin/utilisateurs")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('SUPER_ADMIN')")
 @Tag(name = "Admin - Utilisateurs", description = "Gestion des utilisateurs pour le Web Admin")
 public class AdminUtilisateurController {
 

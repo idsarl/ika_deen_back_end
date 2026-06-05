@@ -31,4 +31,6 @@ public class AdminUtilisateurCreateRequest {
 
     @Builder.Default
     private boolean estVerifie = true;
+
+    private String mosqueeId;
 }
