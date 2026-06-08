@@ -3,6 +3,7 @@ package ika_deen.back_end.controller;
 import ika_deen.back_end.dto.AuthenticationRequest;
 import ika_deen.back_end.dto.AuthenticationResponse;
 import ika_deen.back_end.dto.RegisterRequest;
+import ika_deen.back_end.dto.PhoneAuthRequest;
 import ika_deen.back_end.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
     private final AuthenticationService service;
