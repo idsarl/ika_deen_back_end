@@ -39,8 +39,14 @@ public class MosqueeController {
     @GetMapping
     @Operation(summary = "Récupérer la liste de toutes les mosquées")
     public ResponseEntity<List<Mosquee>> getAll() {
-        return ResponseEntity.ok(mosqueeService.getAllMosquees());
-    }
+            try {
+                return ResponseEntity.ok(mosqueeService.getAllMosquees());
+            } catch (Exception e) {
+                e.printStackTrace(); // C'EST CE PRINT QUI VA VOUS SAUVER
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
 
     /**
      * ÉTAPE 2 : Détails d'une mosquée par son ID (Public).
@@ -93,23 +99,30 @@ public class MosqueeController {
 
         Mosquee createdMosquee = mosqueeService.createMosquee(request);
 
-        // Si les informations de l'admin sont fournies, on le crée et on le lie à la mosquée
-        if (request.getAdmin() != null) {
-            ika_deen.back_end.dto.AdminUtilisateurCreateRequest adminRequest = ika_deen.back_end.dto.AdminUtilisateurCreateRequest.builder()
-                    .email(request.getAdmin().getEmail())
-                    .motDePasse(request.getAdmin().getMotDePasse())
-                    .telephone(request.getAdmin().getTelephone())
-                    .role(ika_deen.back_end.enumeration.Role.ADMIN)
-                    .estActif(true)
-                    .estVerifie(true)
-                    .mosqueeId(createdMosquee.getId())
-                    .build();
-            adminUtilisateurService.create(adminRequest);
+        // Gestion de l'admin : assignation ou création
+        if (request.getAdmin() != null && request.getAdmin().getEmail() != null) {
+            String email = request.getAdmin().getEmail();
+
+            if (utilisateurRepository.existsByEmail(email)) {
+                // L'admin existe déjà : on l'assigne à la nouvelle mosquée
+                adminUtilisateurService.assignerMosqueeAUtilisateur(email, createdMosquee.getId());
+            } else {
+                // L'admin n'existe pas : on le crée
+                ika_deen.back_end.dto.AdminUtilisateurCreateRequest adminRequest = ika_deen.back_end.dto.AdminUtilisateurCreateRequest.builder()
+                        .email(email)
+                        .motDePasse(request.getAdmin().getMotDePasse())
+                        .telephone(request.getAdmin().getTelephone())
+                        .role(ika_deen.back_end.enumeration.Role.ADMIN)
+                        .estActif(true)
+                        .estVerifie(true)
+                        .mosqueeId(createdMosquee.getId())
+                        .build();
+                adminUtilisateurService.create(adminRequest);
+            }
         }
 
         return new ResponseEntity<>(createdMosquee, HttpStatus.CREATED);
     }
-
     /**
      * ÉTAPE 4 : Mise à jour d'une mosquée (ADMIN assigné ou SUPER_ADMIN).
      */
@@ -118,6 +131,19 @@ public class MosqueeController {
     @Operation(summary = "Modifier une mosquée existante (ADMIN/SUPER_ADMIN)")
     public ResponseEntity<Mosquee> update(@PathVariable String id, @Valid @RequestBody MosqueeRequest request) {
         checkMosqueeAccess(id);
+
+        // Si des infos admin sont fournies, seule un SUPER_ADMIN peut modifier cette affectation
+        if (request.getAdmin() != null && request.getAdmin().getEmail() != null) {
+            org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+            boolean isSuperAdmin = auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_SUPER_ADMIN"));
+
+            if (isSuperAdmin) {
+                adminUtilisateurService.assignerMosqueeAUtilisateur(request.getAdmin().getEmail(), id);
+            } else {
+                throw new org.springframework.security.access.AccessDeniedException("Seul le Super Admin peut modifier l'affectation de l'administrateur.");
+            }
+        }
+
         return ResponseEntity.ok(mosqueeService.updateMosquee(id, request));
     }
 

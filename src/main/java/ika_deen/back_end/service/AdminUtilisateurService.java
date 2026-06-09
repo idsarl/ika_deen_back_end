@@ -61,4 +61,13 @@ public class AdminUtilisateurService {
         }
         return repository.save(utilisateur);
     }
+
+    public void assignerMosqueeAUtilisateur(String email, String mosqueeId) {
+        Utilisateur utilisateur = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'email : " + email));
+
+        // On met à jour l'identifiant de la mosquée pour cet utilisateur
+        utilisateur.setMosqueeId(mosqueeId);
+        repository.save(utilisateur);
+    }
 }
