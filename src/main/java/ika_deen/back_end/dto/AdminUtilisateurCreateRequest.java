@@ -32,5 +32,5 @@ public class AdminUtilisateurCreateRequest {
     @Builder.Default
     private boolean estVerifie = true;
 
-    private String mosqueeId;
+    private java.util.List<String> mosqueeIds;
 }

@@ -4,6 +4,8 @@ import ika_deen.back_end.dto.MosqueeRequest;
 import ika_deen.back_end.entite.Mosquee;
 import ika_deen.back_end.exception.ResourceNotFoundException;
 import ika_deen.back_end.repository.MosqueeRepository;
+import ika_deen.back_end.repository.UtilisateurRepository;
+import ika_deen.back_end.entite.Utilisateur;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
@@ -24,20 +26,59 @@ import java.util.regex.Pattern;
 public class MosqueeService {
 
     private final MosqueeRepository mosqueeRepository;
+    private final UtilisateurRepository utilisateurRepository;
+
+    /**
+     * Utilitaire : Peuple les informations de l'administrateur
+     */
+    private void populateAdmin(Mosquee mosquee) {
+        utilisateurRepository.findByMosqueeIdsContainingAndRole(mosquee.getId(), ika_deen.back_end.enumeration.Role.ADMIN)
+                .stream().findFirst()
+                .ifPresent(admin -> {
+                    mosquee.setAdminManager(Mosquee.AdminManager.builder()
+                            .id(admin.getId())
+                            .email(admin.getEmail())
+                            .telephone(admin.getTelephone())
+                            .build());
+                });
+    }
+
+    private void populateAdmins(List<Mosquee> mosquees) {
+        List<Utilisateur> admins = utilisateurRepository.findByRole(ika_deen.back_end.enumeration.Role.ADMIN);
+        
+        for (Mosquee m : mosquees) {
+            Utilisateur adminForMosquee = admins.stream()
+                    .filter(u -> u.getMosqueeIds() != null && u.getMosqueeIds().contains(m.getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (adminForMosquee != null) {
+                m.setAdminManager(Mosquee.AdminManager.builder()
+                        .id(adminForMosquee.getId())
+                        .email(adminForMosquee.getEmail())
+                        .telephone(adminForMosquee.getTelephone())
+                        .build());
+            }
+        }
+    }
 
     /**
      * ÉTAPE 1 : Récupérer toutes les mosquées.
      */
     public List<Mosquee> getAllMosquees() {
-        return mosqueeRepository.findAll();
+        List<Mosquee> mosquees = mosqueeRepository.findAll();
+        populateAdmins(mosquees);
+        return mosquees;
     }
 
     /**
      * ÉTAPE 2 : Récupérer une mosquée par son ID.
      */
     public Mosquee getMosqueeById(String id) {
-        return mosqueeRepository.findById(id)
+        Mosquee mosquee = mosqueeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Mosquée non trouvée avec l'id : " + id));
+        populateAdmin(mosquee);
+        return mosquee;
     }
 
     /**
@@ -107,7 +148,9 @@ public class MosqueeService {
     public List<Mosquee> findNearby(double lat, double lon, double distanceKm) {
         Point point = new Point(lon, lat);
         Distance distance = new Distance(distanceKm, Metrics.KILOMETERS);
-        return mosqueeRepository.findByLocationNear(point, distance);
+        List<Mosquee> mosquees = mosqueeRepository.findByLocationNear(point, distance);
+        populateAdmins(mosquees);
+        return mosquees;
     }
 
     /**

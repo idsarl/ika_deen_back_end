@@ -16,4 +16,5 @@ public interface UtilisateurRepository extends MongoRepository<Utilisateur, Stri
     
     java.util.List<Utilisateur> findByEmailContainingIgnoreCase(String email);
     java.util.List<Utilisateur> findByRole(ika_deen.back_end.enumeration.Role role);
+    java.util.List<Utilisateur> findByMosqueeIdsContainingAndRole(String mosqueeId, ika_deen.back_end.enumeration.Role role);
 }

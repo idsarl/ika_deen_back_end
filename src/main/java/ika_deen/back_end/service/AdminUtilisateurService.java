@@ -28,7 +28,7 @@ public class AdminUtilisateurService {
                 .role(request.getRole())
                 .estActif(request.isEstActif())
                 .estVerifie(request.isEstVerifie())
-                .mosqueeId(request.getMosqueeId())
+                .mosqueeIds(request.getMosqueeIds())
                 .build());
     }
 
@@ -56,8 +56,8 @@ public class AdminUtilisateurService {
         if (request.getEstVerifie() != null) {
             utilisateur.setEstVerifie(request.getEstVerifie());
         }
-        if (request.getMosqueeId() != null) {
-            utilisateur.setMosqueeId(request.getMosqueeId());
+        if (request.getMosqueeIds() != null) {
+            utilisateur.setMosqueeIds(request.getMosqueeIds());
         }
         return repository.save(utilisateur);
     }
@@ -66,8 +66,12 @@ public class AdminUtilisateurService {
         Utilisateur utilisateur = repository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'email : " + email));
 
-        // On met à jour l'identifiant de la mosquée pour cet utilisateur
-        utilisateur.setMosqueeId(mosqueeId);
-        repository.save(utilisateur);
+        if (utilisateur.getMosqueeIds() == null) {
+            utilisateur.setMosqueeIds(new java.util.ArrayList<>());
+        }
+        if (!utilisateur.getMosqueeIds().contains(mosqueeId)) {
+            utilisateur.getMosqueeIds().add(mosqueeId);
+            repository.save(utilisateur);
+        }
     }
 }

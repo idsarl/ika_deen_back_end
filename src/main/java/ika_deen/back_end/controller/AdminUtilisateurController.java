@@ -20,7 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin/utilisateurs")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('SUPER_ADMIN')")
 @Tag(name = "Admin - Utilisateurs", description = "Gestion des utilisateurs pour le Web Admin")
 public class AdminUtilisateurController {
 
@@ -28,6 +27,7 @@ public class AdminUtilisateurController {
     private final AdminUtilisateurService adminUtilisateurService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN')")
     @Operation(summary = "Lister et filtrer les utilisateurs (Admin)")
     public ResponseEntity<List<Utilisateur>> getAll(
             @RequestParam(required = false) String email,
@@ -43,12 +43,14 @@ public class AdminUtilisateurController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Créer un utilisateur (Admin)")
     public ResponseEntity<Utilisateur> create(@Valid @RequestBody AdminUtilisateurCreateRequest request) {
         return new ResponseEntity<>(adminUtilisateurService.create(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Modifier un utilisateur (Admin)")
     public ResponseEntity<Utilisateur> update(
             @PathVariable String id,
@@ -57,6 +59,7 @@ public class AdminUtilisateurController {
     }
 
     @PutMapping("/{id}/status")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Activer/Désactiver un utilisateur (Admin)")
     public ResponseEntity<Utilisateur> toggleStatus(@PathVariable String id, @RequestParam boolean active) {
         Utilisateur utilisateur = repository.findById(id)
@@ -66,6 +69,7 @@ public class AdminUtilisateurController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Supprimer un utilisateur (Admin)")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         repository.deleteById(id);

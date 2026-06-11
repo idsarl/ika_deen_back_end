@@ -70,7 +70,7 @@ public class MosqueeController {
         ika_deen.back_end.entite.Utilisateur currentUser = utilisateurRepository.findByEmail(email)
                 .orElseThrow(() -> new org.springframework.security.access.AccessDeniedException("Utilisateur introuvable"));
                 
-        if (currentUser.getMosqueeId() == null || !currentUser.getMosqueeId().equals(mosqueeId)) {
+        if (currentUser.getMosqueeIds() == null || !currentUser.getMosqueeIds().contains(mosqueeId)) {
             throw new org.springframework.security.access.AccessDeniedException("Vous n'êtes pas autorisé à modifier cette mosquée.");
         }
     }
@@ -79,13 +79,39 @@ public class MosqueeController {
      * ÉTAPE 3 : Création d'une mosquée (Réservé SUPER_ADMIN).
      * multipart/form-data : part "data" (JSON MosqueeRequest) + part "imamPhoto" (fichier image, optionnel).
      */
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @Operation(summary = "Créer une nouvelle mosquée (JSON)")
+    public ResponseEntity<Mosquee> createFromJson(@Valid @RequestBody MosqueeRequest request) {
+        return processCreation(request, null);
+    }
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @Operation(summary = "Créer une nouvelle mosquée avec photo imam (SUPER_ADMIN)")
-    public ResponseEntity<Mosquee> create(
-            @RequestPart("data") @Valid MosqueeRequest request,
+    @Operation(summary = "Créer une nouvelle mosquée avec photo imam (Form-Data)")
+    public ResponseEntity<Mosquee> createFromFormData(
+            @RequestPart("data") String dataJson,
             @RequestPart(value = "imamPhoto", required = false) MultipartFile imamPhoto) {
+        
+        MosqueeRequest request;
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            request = mapper.readValue(dataJson, MosqueeRequest.class);
+            // Validation manuelle
+            jakarta.validation.ValidatorFactory factory = jakarta.validation.Validation.buildDefaultValidatorFactory();
+            jakarta.validation.Validator validator = factory.getValidator();
+            java.util.Set<jakarta.validation.ConstraintViolation<MosqueeRequest>> violations = validator.validate(request);
+            if (!violations.isEmpty()) {
+                throw new jakarta.validation.ConstraintViolationException(violations);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
 
+        return processCreation(request, imamPhoto);
+    }
+
+    private ResponseEntity<Mosquee> processCreation(MosqueeRequest request, MultipartFile imamPhoto) {
         if (request.getImam() != null) {
             request.getImam().setPhotoUrl(null);
         }
@@ -115,7 +141,7 @@ public class MosqueeController {
                         .role(ika_deen.back_end.enumeration.Role.ADMIN)
                         .estActif(true)
                         .estVerifie(true)
-                        .mosqueeId(createdMosquee.getId())
+                        .mosqueeIds(java.util.List.of(createdMosquee.getId()))
                         .build();
                 adminUtilisateurService.create(adminRequest);
             }

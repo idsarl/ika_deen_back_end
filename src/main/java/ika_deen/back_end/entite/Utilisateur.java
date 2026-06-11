@@ -32,7 +32,8 @@ public class Utilisateur {
 
     private Role role;
 
-    private String mosqueeId;
+    @Builder.Default
+    private java.util.List<String> mosqueeIds = new java.util.ArrayList<>();
 
     @Builder.Default
     private boolean estActif = true;

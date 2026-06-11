@@ -51,6 +51,19 @@ public class Mosquee {
     @Builder.Default
     private int nombreAvis = 0;
 
+    @org.springframework.data.annotation.Transient
+    private AdminManager adminManager;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AdminManager {
+        private String id;
+        private String email;
+        private String telephone;
+    }
+
     @Data
     @Builder
     @NoArgsConstructor

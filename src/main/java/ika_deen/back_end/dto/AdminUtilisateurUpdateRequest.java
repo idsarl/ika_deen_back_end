@@ -18,5 +18,5 @@ public class AdminUtilisateurUpdateRequest {
     private Role role;
     private Boolean estActif;
     private Boolean estVerifie;
-    private String mosqueeId;
+    private java.util.List<String> mosqueeIds;
 }
