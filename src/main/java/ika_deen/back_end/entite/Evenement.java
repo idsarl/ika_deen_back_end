@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Document(collection = "evenements")
@@ -28,7 +29,7 @@ public class Evenement {
 
     private String description;
 
-    private LocalDateTime dateEvenement;
+    private Instant dateEvenement;
 
     private String imageUrl;
 

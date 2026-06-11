@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,10 +46,11 @@ public class EvenementController {
             @RequestParam String titre,
             @RequestParam String description,
             @RequestParam @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") 
-            @io.swagger.v3.oas.annotations.Parameter(description = "Format: yyyy-MM-dd HH:mm:ss", example = "2026-05-14 10:45:30") 
-            LocalDateTime dateEvenement,
+            @io.swagger.v3.oas.annotations.Parameter(description = "Format: yyyy-MM-dd HH:mm:ss", example = "2026-05-14 10:45:30")
+            Instant dateEvenement,
             @RequestParam(required = false) String mosqueeId,
             @RequestPart(value = "image", required = false) MultipartFile image) {
+
 
         Evenement evenement = Evenement.builder()
                 .titre(titre)
