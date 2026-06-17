@@ -49,4 +49,23 @@ public class GeoLocationService {
         private double lon;
         private String timezone;
     }
+
+    /**
+     * Récupère le nom de la ville à partir des coordonnées GPS.
+     */
+    public String getCityFromLatLon(double lat, double lon) {
+        String url = String.format("https://nominatim.openstreetmap.org/reverse?format=json&lat=%f&lon=%f", lat, lon);
+
+        try {
+            Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+            if (response != null && response.containsKey("address")) {
+                Map<String, String> address = (Map<String, String>) response.get("address");
+                // On extrait la ville (ou town, village)
+                return address.getOrDefault("city", address.getOrDefault("town", address.get("village")));
+            }
+        } catch (Exception e) {
+            log.error("Erreur Reverse Geocoding : {}", e.getMessage());
+        }
+        return "Bamako"; // Ville par défaut
+    }
 }
