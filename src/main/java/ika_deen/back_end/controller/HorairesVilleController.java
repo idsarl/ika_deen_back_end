@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/horaires-ville")
 @RequiredArgsConstructor
@@ -42,5 +44,10 @@ public class HorairesVilleController {
             @RequestParam double lat,
             @RequestParam double lon) {
         return ResponseEntity.ok(horairesService.getHorairesByGeolocalisation(lat, lon));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<HorairesVille>> getAll() {
+        return ResponseEntity.ok(horairesService.getAllHoraires());
     }
 }

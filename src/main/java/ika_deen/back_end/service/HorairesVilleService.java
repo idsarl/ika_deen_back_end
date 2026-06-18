@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,10 @@ public class HorairesVilleService {
 
         // 2. Utiliser la méthode existante pour récupérer les horaires
         return getHorairesByVille(ville);
+    }
+
+    public List<HorairesVille> getAllHoraires() {
+        return horairesRepository.findAll();
     }
 
 }
